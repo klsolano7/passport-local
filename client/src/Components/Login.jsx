@@ -4,7 +4,8 @@ import axios from "axios";
 export default class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errorMessage: "",
   };
 
   handleSubmit = event => {
@@ -19,10 +20,12 @@ export default class Login extends Component {
       }
     })
       .then(response => {
-        console.log("Data: ", response.data);
+        this.props.history.push('/profile')
       })
       .catch(error => {
-        console.log("Error: ", error.response);
+        this.setState({
+            errorMessage: error.response.data.message
+        })
       });
   };
 
@@ -42,6 +45,7 @@ export default class Login extends Component {
           <input type="password" name="password" onChange={this.handleChange} />
           <button>Login</button>
         </form>
+        <p>{this.state.errorMessage}</p>
       </div>
     );
   }

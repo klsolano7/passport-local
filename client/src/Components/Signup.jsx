@@ -4,7 +4,8 @@ import axios from 'axios';
 export default class Signup extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errorMessage: ""
   };
 
   handleSubmit = (event) => {
@@ -19,10 +20,12 @@ export default class Signup extends Component {
           }
       })
       .then((response) =>{
-          console.log("Date: ", response.data )
+        this.props.history.push('/profile')
       })
       .catch((error) =>{
-          console.log('Error: ', error.response)
+          this.setState({
+              errorMessage: error.responce.data.message
+          })
       });
   };
 
@@ -38,10 +41,11 @@ export default class Signup extends Component {
       <div>
           {/* <h2>Signup Component</h2> */}
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="email" onChange={this.handleChange} />
+          <input type="text" name="email" placeholder="email" onChange={this.handleChange} />
           <input type="password" name="password" onChange={this.handleChange} />
           <button>Signup</button>
         </form>
+        <p>{this.errorMessage}</p>
       </div>
     );
   }
